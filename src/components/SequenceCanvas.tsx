@@ -9,12 +9,12 @@ export default function SequenceCanvas() {
   const { scrollYProgress } = useScroll();
   const totalFrames = 300;
 
-  // Preload images with smart mobile downsampling & fast caching
+  // Preload images with smart mobile downsampling & ultra-light memory profile for 4GB RAM phones
   useEffect(() => {
     const loadedImages: HTMLImageElement[] = [];
     const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-    // On mobile: 75 frames (step 4), Desktop: 150 frames (step 2) for instant load & 60fps scroll
-    const step = isMobile ? 4 : 2;
+    // On mobile: 50 frames (step 6, ~5MB total RAM), Desktop: 150 frames (step 2) for instant 60fps scroll
+    const step = isMobile ? 6 : 2;
 
     const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
@@ -47,7 +47,7 @@ export default function SequenceCanvas() {
 
     // Find nearest loaded image if downsampled
     const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-    const step = isMobile ? 4 : 2;
+    const step = isMobile ? 6 : 2;
     const mappedIndex = Math.min(
       images.length - 1,
       Math.max(0, Math.floor(index / step))

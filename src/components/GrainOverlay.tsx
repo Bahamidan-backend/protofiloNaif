@@ -46,6 +46,9 @@ export default function GrainOverlay() {
       animId = requestAnimationFrame(tick);
     };
 
+    // On mobile screens (e.g. 4GB RAM phones), skip heavy canvas noise generation to save CPU/battery
+    if (window.innerWidth < 768) return;
+
     tick();
 
     return () => {
