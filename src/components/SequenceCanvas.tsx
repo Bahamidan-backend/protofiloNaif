@@ -13,10 +13,11 @@ export default function SequenceCanvas() {
   useEffect(() => {
     const loadedImages: HTMLImageElement[] = [];
     
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
     for (let i = 1; i <= totalFrames; i++) {
       const img = new Image();
       const paddedIndex = i.toString().padStart(3, "0");
-      img.src = `/sequence/ezgif-frame-${paddedIndex}.jpg`;
+      img.src = `${basePath}/sequence/ezgif-frame-${paddedIndex}.jpg`;
       
       // Redraw if this is the current frame being requested
       img.onload = () => {

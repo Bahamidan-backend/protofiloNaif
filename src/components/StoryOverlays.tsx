@@ -157,7 +157,7 @@ export default function StoryOverlays() {
           >
             <div className="w-full h-full rounded-full border-2 border-[#0A0A0C] overflow-hidden bg-[#111]">
               <img
-                src="/profile.jpg"
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/profile.jpg`}
                 alt="Naif Bahamidan"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               />
@@ -361,7 +361,7 @@ export default function StoryOverlays() {
               {/* Image */}
               <div className="w-full md:w-1/2 flex-shrink-0 relative rounded-xl overflow-hidden shadow-2xl shadow-black/80 border border-white/10 group">
                 <img
-                  src="/certificate.jpg"
+                  src={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/certificate.jpg`}
                   alt="SCA Certificate"
                   className="w-full h-auto object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500 transform group-hover:scale-105"
                 />
