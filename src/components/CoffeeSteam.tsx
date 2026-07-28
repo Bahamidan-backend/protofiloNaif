@@ -64,9 +64,9 @@ export default function CoffeeSteam() {
     let frameCount = 0;
     const tick = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      frameCount++;
-
-      if (frameCount % 14 === 0 && wisps.length < 22) spawnWisp();
+      const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+      const maxWisps = isMobile ? 8 : 22;
+      if (frameCount % 14 === 0 && wisps.length < maxWisps) spawnWisp();
 
       for (let i = wisps.length - 1; i >= 0; i--) {
         const w = wisps[i];

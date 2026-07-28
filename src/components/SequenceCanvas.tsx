@@ -9,44 +9,54 @@ export default function SequenceCanvas() {
   const { scrollYProgress } = useScroll();
   const totalFrames = 300;
 
-  // Preload images
+  // Preload images with smart mobile downsampling
   useEffect(() => {
     const loadedImages: HTMLImageElement[] = [];
-    
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    // On mobile, load every 2nd frame (150 frames instead of 300) to cut RAM/network usage by 50%
+    const step = isMobile ? 2 : 1;
+
     const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-    for (let i = 1; i <= totalFrames; i++) {
+
+    for (let i = 1; i <= totalFrames; i += step) {
       const img = new Image();
       const paddedIndex = i.toString().padStart(3, "0");
       img.src = `${basePath}/sequence/ezgif-frame-${paddedIndex}.jpg`;
-      
-      // Redraw if this is the current frame being requested
+
       img.onload = () => {
         const currentFrameIndex = Math.min(
           totalFrames - 1,
           Math.max(0, Math.floor(scrollYProgress.get() * totalFrames))
         );
-        if (i - 1 === currentFrameIndex) {
+        if (Math.abs(i - 1 - currentFrameIndex) <= step) {
           drawFrame(currentFrameIndex);
         }
       };
-      
+
       loadedImages.push(img);
     }
     setImages(loadedImages);
   }, []);
 
-  // Draw frame on canvas
+  // Draw frame on canvas with mobile-optimized resolution
   const drawFrame = (index: number) => {
     if (!canvasRef.current || images.length === 0) return;
-    
+
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
-    
-    const img = images[index];
+
+    // Find nearest loaded image if downsampled
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    const step = isMobile ? 2 : 1;
+    const mappedIndex = Math.min(
+      images.length - 1,
+      Math.max(0, Math.floor(index / step))
+    );
+    const img = images[mappedIndex];
     if (!img || !img.complete) return;
 
     const canvas = canvasRef.current;
-    
+
     // Scale to fit while maintaining aspect ratio (cover)
     const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
     const width = img.width * scale;
@@ -54,19 +64,21 @@ export default function SequenceCanvas() {
     const x = (canvas.width - width) / 2;
     const y = (canvas.height - height) / 2;
 
-    // The dark background matching the image void
     ctx.fillStyle = "#050505";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
+
     ctx.drawImage(img, x, y, width, height);
   };
 
-  // Handle resize and initial draw
+  // Handle resize and initial draw with DPR capping for high performance
   useEffect(() => {
     const handleResize = () => {
       if (canvasRef.current) {
-        canvasRef.current.width = window.innerWidth;
-        canvasRef.current.height = window.innerHeight;
+        const isMobile = window.innerWidth < 768;
+        // Cap max canvas resolution on mobile to prevent GPU/RAM memory overload
+        const dpr = isMobile ? 1 : Math.min(window.devicePixelRatio || 1, 2);
+        canvasRef.current.width = window.innerWidth * dpr;
+        canvasRef.current.height = window.innerHeight * dpr;
         const currentFrameIndex = Math.min(
           totalFrames - 1,
           Math.max(0, Math.floor(scrollYProgress.get() * totalFrames))
@@ -74,11 +86,10 @@ export default function SequenceCanvas() {
         drawFrame(currentFrameIndex);
       }
     };
-    
+
     handleResize();
     window.addEventListener("resize", handleResize);
-    
-    // Draw frame 0 once the first image is loaded
+
     if (images.length > 0) {
       if (images[0].complete) {
         drawFrame(0);
@@ -86,17 +97,19 @@ export default function SequenceCanvas() {
         images[0].onload = () => drawFrame(0);
       }
     }
-    
+
     return () => window.removeEventListener("resize", handleResize);
   }, [images]);
 
-  // Listen to scroll
+  // Listen to scroll with animation frame throttling
+  const animFrameId = useRef<number | null>(null);
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     const frameIndex = Math.min(
       totalFrames - 1,
       Math.max(0, Math.floor(latest * totalFrames))
     );
-    requestAnimationFrame(() => drawFrame(frameIndex));
+    if (animFrameId.current) cancelAnimationFrame(animFrameId.current);
+    animFrameId.current = requestAnimationFrame(() => drawFrame(frameIndex));
   });
 
   return (
