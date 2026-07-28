@@ -25,7 +25,7 @@ export default function Home() {
         This tall container dictates the total scrollable height.
         800vh gives enough room for all 8 sections.
       */}
-      <div style={{ height: "900vh" }}>
+      <div style={{ height: "520vh" }}>
         <Navbar />
 
         {/* Sticky Canvas Background */}
