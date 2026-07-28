@@ -1,0 +1,289 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #050505;
+  --color-foreground: #ffffff;
+  --color-secondary: #0A0A0C;
+  --color-accent: #D4A373;
+  --color-cream: #F5F5DC;
+  /* Coffee palette */
+  --color-espresso: #2C1810;
+  --color-roast-dark: #3B1A0A;
+  --color-roast-medium: #8B4513;
+  --color-roast-light: #C8803A;
+  --color-cream-warm: #F2E4C8;
+  --color-steam: rgba(245, 232, 212, 0.18);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: var(--font-tajawal), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Stat number glow pulse ── */
+@keyframes stat-glow {
+
+  0%,
+  100% {
+    text-shadow: 0 0 12px rgba(212, 163, 115, 0.5);
+  }
+
+  50% {
+    text-shadow: 0 0 28px rgba(212, 163, 115, 1), 0 0 55px rgba(212, 163, 115, 0.4);
+  }
+}
+
+.stat-glow {
+  animation: stat-glow 2.8s ease-in-out infinite;
+}
+
+/* ── Shimmer sweep on text ── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.shimmer-text {
+  background: linear-gradient(90deg,
+      #ffffff 0%,
+      #D4A373 30%,
+      #F5F5DC 50%,
+      #D4A373 70%,
+      #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ── Intro shimmer: works with child-span framer opacity ── */
+/* Uses filter instead of -webkit-text-fill-color so child opacity still works */
+@keyframes intro-shimmer-move {
+  0% {
+    background-position: 200% center;
+  }
+
+  100% {
+    background-position: -200% center;
+  }
+}
+
+.intro-shimmer {
+  background: linear-gradient(90deg,
+      #c49a6c 0%,
+      #e8c89a 25%,
+      #F5F5DC 50%,
+      #e8c89a 75%,
+      #c49a6c 100%);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: intro-shimmer-move 3.5s linear infinite;
+}
+
+/* ── Shimmer pass for intro overlay ── */
+@keyframes shimmer-pass {
+  0% {
+    background-position: 200% center;
+  }
+
+  100% {
+    background-position: -200% center;
+  }
+}
+
+/* ── Orb float ── */
+@keyframes orb-float {
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.18;
+  }
+
+  33% {
+    transform: translate(-50%, -52%) scale(1.06);
+    opacity: 0.25;
+  }
+
+  66% {
+    transform: translate(-50%, -48%) scale(0.96);
+    opacity: 0.20;
+  }
+}
+
+.orb-float {
+  animation: orb-float 8s ease-in-out infinite;
+}
+
+/* ── Card glass surface ── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 163, 115, 0.08);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.glass-card:hover {
+  background: rgba(212, 163, 115, 0.05);
+  border-color: rgba(212, 163, 115, 0.22);
+  box-shadow:
+    0 0 0 1px rgba(212, 163, 115, 0.12) inset,
+    0 0 35px rgba(212, 163, 115, 0.08),
+    0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+/* ── Nav link underline sweep ── */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #D4A373, #F5F5DC);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+/* ── Skill icon pulse ring ── */
+@keyframes ring-pulse {
+  0% {
+    box-shadow: 0 0 0 0px rgba(212, 163, 115, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 8px rgba(212, 163, 115, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0px rgba(212, 163, 115, 0);
+  }
+}
+
+.icon-ring:hover {
+  animation: ring-pulse 0.9s ease-out;
+}
+
+/* ── Timeline dot glow ── */
+@keyframes dot-ping {
+  0% {
+    box-shadow: 0 0 0 0px rgba(212, 163, 115, 0.7);
+  }
+
+  80% {
+    box-shadow: 0 0 0 10px rgba(212, 163, 115, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0px rgba(212, 163, 115, 0);
+  }
+}
+
+.timeline-dot {
+  animation: dot-ping 2.4s ease-out infinite;
+}
+
+/* ── Gradient border glow ── */
+@keyframes border-glow {
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.border-glow-anim {
+  animation: border-glow 3s ease-in-out infinite;
+}
+
+/* ── Latte Art ring slow spin ── */
+@keyframes latte-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.latte-ring {
+  animation: latte-spin 18s linear infinite;
+  transform-origin: center;
+}
+
+.latte-ring-rev {
+  animation: latte-spin 28s linear infinite reverse;
+  transform-origin: center;
+}
+
+/* ── Roast bar fill ── */
+@keyframes roast-fill {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 82%;
+  }
+}
+
+.roast-bar-fill {
+  animation: roast-fill 1.4s ease-out forwards;
+}
+
+/* ── Coffee bean bounce ── */
+@keyframes bean-float {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-5px) rotate(8deg);
+  }
+}
+
+.bean-float {
+  animation: bean-float 3.2s ease-in-out infinite;
+}
