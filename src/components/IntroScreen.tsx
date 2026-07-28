@@ -126,7 +126,7 @@ export default function IntroScreen() {
           {/* Name — letter by letter with proper shimmer (dir="ltr" prevents RTL flex reversal) */}
           <div className="relative" dir="ltr">
             {/* Letter animation layer */}
-            <div className="flex items-center gap-[0.06em] overflow-hidden text-4xl md:text-6xl font-bold tracking-[0.15em]" dir="ltr">
+            <div className="flex items-center justify-center gap-[0.04em] sm:gap-[0.06em] overflow-hidden text-2xl sm:text-4xl md:text-6xl font-bold tracking-[0.08em] sm:tracking-[0.15em] max-w-[95vw] mx-auto px-1" dir="ltr">
               {LETTERS.map((char, i) => (
                 <motion.span
                   key={i}
@@ -137,7 +137,7 @@ export default function IntroScreen() {
                     duration: 0.5,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className={`inline-block text-[#D4A373] ${char === " " ? "w-4" : ""}`}
+                  className={`inline-block text-[#D4A373] ${char === " " ? "w-2 sm:w-4" : ""}`}
                 >
                   {char}
                 </motion.span>
@@ -164,7 +164,7 @@ export default function IntroScreen() {
             initial={{ opacity: 0, y: 10 }}
             animate={started ? { opacity: 0.5, y: 0 } : {}}
             transition={{ delay: 1.2, duration: 0.6 }}
-            className="mt-4 text-sm tracking-[0.4em] text-[#D4A373] uppercase font-light"
+            className="mt-4 text-[11px] sm:text-sm tracking-[0.22em] sm:tracking-[0.4em] text-[#D4A373] uppercase font-light text-center px-4"
           >
             Coffee Quality Manager
           </motion.p>

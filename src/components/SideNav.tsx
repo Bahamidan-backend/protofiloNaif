@@ -35,7 +35,7 @@ export default function SideNav() {
   };
 
   return (
-    <div className="fixed right-5 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3 items-end pointer-events-auto">
+    <div dir="ltr" className="fixed right-3 md:right-5 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-2.5 md:gap-3 items-end pointer-events-auto">
       {SECTIONS.map((section, i) => {
         const isActive = i === activeIndex;
         return (

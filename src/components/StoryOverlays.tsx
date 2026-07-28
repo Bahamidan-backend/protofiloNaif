@@ -174,13 +174,13 @@ export default function StoryOverlays() {
           </motion.div>
         </div>
 
-        <h1 className="shimmer-text text-5xl md:text-8xl font-bold tracking-tight mb-4">
+        <h1 className="shimmer-text text-3xl sm:text-6xl md:text-8xl font-bold tracking-tight mb-4">
           {t.hero.name}
         </h1>
-        <h2 className="text-xl md:text-3xl font-medium text-white/70 mb-6 max-w-2xl tracking-wide">
+        <h2 className="text-lg sm:text-2xl md:text-3xl font-medium text-white/80 mb-5 max-w-2xl tracking-wide px-2">
           {t.hero.role}
         </h2>
-        <p className="text-base md:text-xl text-white/45 max-w-xl font-light leading-relaxed">
+        <p className="text-xs sm:text-base md:text-xl text-white/70 max-w-xl font-light leading-relaxed px-4">
           {t.hero.subtitle}
         </p>
 
